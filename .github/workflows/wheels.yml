@@ -27,6 +27,7 @@ jobs:
             cmake -S $PWD -B $PWD/build \
              -DCMAKE_RUNTIME_OUTPUT_DIRECTORY=$PWD/bin \
              -DCMAKE_LIBRARY_OUTPUT_DIRECTORY=$PWD/lib \
+             -DBUILD_TESTING=TRUE \
             && cmake --build build -j $(nproc)  
 
       - name: C++ unit tests

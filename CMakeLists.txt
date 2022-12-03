@@ -28,14 +28,19 @@ ELSEIF(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
 ELSE()
 ENDIF(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
 
-IF(ANDROID)
-    SET(BUILD_TESTING OFF)
-ELSE(ANDROID)
-    SET(BUILD_TESTING ON)
-    enable_testing()
-ENDIF(ANDROID)
+# BUILD_TESTING option handling. By default tests are turned off but the value is cached and can be changed in Cmake-GUI
+set(BUILD_TESTING false CACHE BOOL "Build unit tests for MROB modules")
 
 MESSAGE(STATUS "Build Tests: ${BUILD_TESTING}")
+
+IF(ANDROID)
+    SET(BUILD_TESTING false)
+ELSE(ANDROID)
+    IF(BUILD_TESTING)
+        enable_testing()
+    ENDIF(BUILD_TESTING)
+ENDIF(ANDROID)
+
 
 # ===================================================================
 INCLUDE_DIRECTORIES(SYSTEM ./external/Eigen)
